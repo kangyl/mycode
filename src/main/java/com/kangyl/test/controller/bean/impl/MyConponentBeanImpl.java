@@ -1,5 +1,5 @@
 /**
- * Copyright 厦门四方中信信息科技有限公司 版权所有 违者必究 2018
+ * Copyright  2018
  */
 package com.kangyl.test.controller.bean.impl;
 
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 /**
  *
- *@author : kangyl(kangyl@mysinosoft.com)
+ *@author : kangyl(460720197@qq.com)
  *@date: 2018/3/10
  */
 @Service
