@@ -1,7 +1,5 @@
 package com.kangyl.test.seriable;
 
-import com.kangyl.test.hash.Person;
-
 import java.io.*;
 
 /**
@@ -14,32 +12,32 @@ import java.io.*;
 public class TestMain {
 
     public static void main(String[] args) {
-//        serialClass();
-//        deserialClass();
+        serialClass();
+        deserialClass();
     }
 
     private static void deserialClass() {
 
-        try(ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream("D:\\Person.txt"))){
+        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream("D:\\Person.txt"))) {
 
-            Person person = (Person) inputStream.readObject();
+            SerialObj person = (SerialObj ) inputStream.readObject();
             System.out.println(person.getName());
-        }catch (Exception  e){
-
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     private static void serialClass() {
-        Person person = new Person();
+        SerialObj person = new SerialObj();
         person.setName("sdds");
-        person.setId("dsd");
+        person.setAddr("dsd");
 
-        try(OutputStream stream = new FileOutputStream("D:\\Person.txt")){
+        try (OutputStream stream = new FileOutputStream("D:\\Person.txt")) {
 
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(stream);
             objectOutputStream.writeObject(person);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
