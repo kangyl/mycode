@@ -3,6 +3,8 @@
  */
 package com.kangyl.test.latch;
 
+import com.kangyl.test.hash.Person;
+
 import java.util.concurrent.CountDownLatch;
 
 /**
@@ -10,7 +12,7 @@ import java.util.concurrent.CountDownLatch;
  *@author : kangyl(460720197@qq.com)
  *@date: 2018/3/28
  */
-public class LatchTest {
+public class LatchTest{
 
     private class TestRun implements Runnable{
         @Override
