@@ -11,6 +11,7 @@ import javax.management.NotificationListener;
  * @date: 2018/10/7
  */
 public class HelloListener implements NotificationListener {
+
     @Override
     public void handleNotification(Notification notification, Object handback) {
         System.out.println("----------HelloListener-Begin------------");
