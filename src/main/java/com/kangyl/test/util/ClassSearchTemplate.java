@@ -34,7 +34,7 @@ public abstract class ClassSearchTemplate {
 
     public List<Class<?>> getClassList() {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        List<Class<?>> classList = new ArrayList<>();
+        List<Class<?>> classList = new ArrayList<Class<?>>();
         try {
             Enumeration<URL> resources = classLoader.getResources(pkgName.replace(".", "/"));
             while (resources.hasMoreElements()) {
