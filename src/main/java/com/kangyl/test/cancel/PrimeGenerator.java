@@ -3,7 +3,6 @@
  */
 package com.kangyl.test.cancel;
 
-import javax.swing.*;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +15,9 @@ public class PrimeGenerator implements Runnable {
 
     private  volatile boolean cancel;
 
-    private final List<BigInteger> primes = new ArrayList<>();
+    private final List<BigInteger> primes = new ArrayList<BigInteger>();
 
     @Override
-
     public void run() {
         BigInteger bigInteger = BigInteger.ONE;
         while (!cancel){
@@ -35,6 +33,6 @@ public class PrimeGenerator implements Runnable {
     }
 
     public synchronized List<BigInteger> get() {
-        return new ArrayList<>(primes);
+        return new ArrayList<BigInteger>(primes);
     }
 }

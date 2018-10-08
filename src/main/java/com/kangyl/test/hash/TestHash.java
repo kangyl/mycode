@@ -14,7 +14,7 @@ public class TestHash {
 
     public static void main(String[] args) {
         Person zs = new Person("1234", "张三");
-        Map<Person, String> map = new HashMap<>();
+        Map<Person, String> map = new HashMap<Person, String>();
         map.put(zs, "111");
 
         Person ls = new Person("1234", "李四");
