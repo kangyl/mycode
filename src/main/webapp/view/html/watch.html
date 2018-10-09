@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Title</title>
+    <script src="../../static/common/vue.js" type="text/javascript"></script>
+</head>
+<body>
+
+    <div id="app">
+        <p style="font-size:25px">计数器:{{counter}}</p>
+        <button @click="counter++" style="font-size:25px">加1</button>
+    </div>
+    <script type="text/javascript">
+        var app = new Vue({
+            el:"#app",
+            data:{
+                counter:1
+            }
+        });
+        app.$watch("counter",function (newValue, oldValue) {
+            alert("计数器新值为:" + newValue + ",旧值:" + oldValue);
+        })
+    </script>
+</body>
+</html>

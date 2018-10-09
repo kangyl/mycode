@@ -1,0 +1,212 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Title</title>
+    <script src="../../static/common/vue.js" type="text/javascript"></script>
+    <style type="text/css">
+        .class1{
+            color:red;
+        }
+    </style>
+</head>
+<body>
+<div id="vue_det">
+    <h1>site : {{site}}</h1>
+    <h1>url : {{url}}</h1>
+    <h1>{{details()}}</h1>
+</div>
+<div id="app">
+    <div v-html="message"></div>
+</div>
+<div id="app2">
+    <label for="r1">修改颜色</label><input type="checkbox" id="r1" v-model="class1">
+    <br><br>
+    <div v-bind:class="{'class1':class1}">
+        v-bind:class指令
+    </div>
+</div>
+
+<div id="app3">
+    <h1>表达式测试</h1>
+    <br>
+    {{5+5}}
+    {{ok?true:false}}
+    {{message.split(' ').reverse().join('')}}
+    <div v-bind:id="'list-'+id">测试</div>
+</div>
+
+<div id="app4">
+    <h1>指令测试</h1>
+    <br>
+    <p v-if="seen">现在可以看到了</p>
+</div>
+
+<div id="app5">
+    <h1>参数测试</h1>
+    <a v-bind:href="url" v-on:click="doSome">百度</a>
+</div>
+<div id="app6">
+    <h1>用户输入</h1>
+    <form v-on:submit.prevent="onSubmit">
+        {{message}}
+        <br>
+        <input v-model="message">
+        <button v-on:click="btnClick">提交按钮</button>
+    </form>
+</div>
+
+<div id="app7">
+    <h1>数据双向绑定</h1>
+    <p>{{message}}</p>
+    <button v-on:click="reverseMessage">反转字符串</button>
+</div>
+
+<div id="app8">
+    <h1>过滤器测试</h1>
+    <p>{{message | takeFirst | takeLast}}</p>
+</div>
+
+<div id="app9">
+    <h1>指令缩写</h1>
+    <a :href="url" :target="target">百度</a><br>
+    <button @click="doSome">doSomething</button>
+</div>
+
+<div id="app10">
+    <h1>添加属性</h1>
+    <button @click="addCount">添加计数</button>
+</div>
+<script type="text/javascript">
+    var data = {
+        site: "菜鸟教程",
+        url: "hello",
+        alexa: "10000"
+    };
+    var vm = new Vue({
+        el: '#vue_det',
+        data: data,
+        methods: {
+            details: function () {
+                return this.site + " - 学的不仅是技术，更是梦想！";
+            }
+        }
+    });
+    // // 它们引用相同的对象！
+    // var document1 = window.document;
+    // document1.write(vm.site === data.site); // true
+    // document1.write("<br>");
+    // // 设置属性也会影响到原始数据
+    // vm.site = "Runoob";
+    // document1.write(data.site + "<br>"); // Runoob
+    //
+    // // ……反之亦然
+    // data.alexa = 1234;
+    // document1.write(vm.alexa); // 1234
+    new Vue({
+        el: "#app",
+        data: {
+            message: "<h1>sdddddddd</h1>"
+        }
+    });
+
+    //绑定
+    var bind = new Vue({
+        el:"#app2",
+        data:{
+            class1:false
+        }
+    });
+
+    var app3 = new Vue({
+        el:"#app3",
+        data:{
+            ok:false,
+            message: "kent is this",
+            id:'ss'
+        }
+    });
+
+    var app4 = new Vue({
+        el:"#app4",
+        data:{
+            seen:true
+        }
+    });
+
+    var app5 = new Vue({
+        el:"#app5",
+        data:{
+            url:"http://www.baidu.com",
+            doSome:function () {
+                alert(" do something");
+            }
+        }
+    });
+
+    var app6 = new Vue({
+        el:"#app6",
+        data:{
+            message:"testmessage",
+            onSubmit:function (e) {
+                console.log(e);
+            },
+            btnClick:function (e) {
+                this.onSubmit(e);
+            }
+        }
+    });
+
+    var app7 = new Vue({
+        el:"#app7",
+        data:{
+            message:"abcd"
+        },
+        methods:{
+            reverseMessage:function (e) {
+                this.message = this.message.split('').reverse().join('');
+            }
+        }
+    });
+
+    var app8 = new Vue({
+        el:"#app8",
+        data:{
+            message:"test"
+        },
+        filters:{
+            takeFirst:function (msg) {
+                return msg.substr(1,msg.length);
+            },
+            takeLast:function (msg) {
+                return msg.substr(0,msg.length-1)
+            }
+        }
+    });
+
+    var app9 = new Vue({
+        el:"#app9",
+        data:{
+            url:"http://baidu.com",
+            target:"_blank"
+        },
+        methods:{
+            doSome:function (e) {
+                alert('do some else ');
+            }
+        }
+    });
+    
+    var app10 = new Vue({
+        el:"#app10",
+        methods:{
+            addCount:function () {
+                
+            }
+        }
+    });
+
+</script>
+</body>
+</html>

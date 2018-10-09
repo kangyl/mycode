@@ -124,11 +124,20 @@
             <artifactId>javassist</artifactId>
             <version>3.19.0-GA</version>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>com.sun.jdmk</groupId>-->
-            <!--<artifactId>jmxtools</artifactId>-->
-            <!--<version>1.2.1</version>-->
-        <!--</dependency>-->
+        <!-- 内存数据库h2-->
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.197</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.sun.jdmk</groupId>
+            <artifactId>jmxtools</artifactId>
+            <version>1.2.1</version>
+        </dependency>
     </dependencies>
 
 </project>
