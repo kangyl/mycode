@@ -9,7 +9,7 @@ import java.io.Serializable;
  * <p> Description:
  * <p>
  *
- * @author 康玉琳 (yulin.kang@ucarinc.com)
+ * @author 康玉琳 (460720197@qq.com)
  * @since 2018年09月30日
  */
 public class SerialObj implements Serializable {
