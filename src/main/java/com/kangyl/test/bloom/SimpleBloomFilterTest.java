@@ -30,10 +30,8 @@ public class SimpleBloomFilterTest {
             bloomFilterExtend.add(value);
         }
 
-        BigDecimal percent = new BigDecimal(count).multiply(new BigDecimal(100)).divide(new BigDecimal(template.size()),10,RoundingMode.HALF_UP);
+        BigDecimal percent = new BigDecimal(count).multiply(new BigDecimal(100)).divide(new BigDecimal(template.size()),6,RoundingMode.HALF_UP);
         System.out.println("布隆过滤器总共判定:" + template.size() + "个,误判数量为:" + count + ",误差率为:" + percent.toString()+"%");
-
-
     }
 
     private static List<String> generateStrList() {
