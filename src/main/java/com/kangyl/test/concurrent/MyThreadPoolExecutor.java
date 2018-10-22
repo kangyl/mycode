@@ -34,6 +34,7 @@ public class MyThreadPoolExecutor extends MyAbstractExecutorService {
     private BlockingQueue queue;
     private RejectHandler rejectHandler;
     private HashSet<Worker> workers = new HashSet<>();
+    private BlockingQueue<Runnable> workQueue;
 
     public MyThreadPoolExecutor(int coreSize, int maxLargeSize, int time,TimeUnit timeUnit) {
         this(coreSize, maxLargeSize, time,timeUnit, new DefaultThreadFactory(), new LinkedBlockingQueue(Integer.MAX_VALUE), defaultHandler);
@@ -46,6 +47,7 @@ public class MyThreadPoolExecutor extends MyAbstractExecutorService {
         this.threadFactory = threadFactory;
         this.queue = queue;
         this.rejectHandler = rejectHandler;
+        workQueue = new LinkedBlockingQueue<>(CAPS_BITS);
     }
 
     private static int ctlOf(int runState, int workCount) {
@@ -117,7 +119,10 @@ public class MyThreadPoolExecutor extends MyAbstractExecutorService {
             if(addWorker(command,true)){
                 return;
             }
-        } else if (workCount >= coreSize && workCount < maxLargeSize) {
+            state = ctl.get();
+        }
+        if (isRunning(state) && workQueue.offer(command)) {
+            int recheck = ctl.get();
             if (addWorker(command, false)) {
                 return;
             }
@@ -125,6 +130,10 @@ public class MyThreadPoolExecutor extends MyAbstractExecutorService {
 
         rejectHandler.reject(this, command);
 
+    }
+
+    private boolean isRunning(int state) {
+        return RUNNING == runStateOf(state);
     }
 
 
