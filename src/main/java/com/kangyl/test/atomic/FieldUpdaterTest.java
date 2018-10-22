@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
  * <p> Description:
  * <p>
  *
- * @author 康玉琳 (yulin.kang@ucarinc.com)
+ * @author 康玉琳 (460720197@qq.com)
  * @since 2018年10月17日
  */
 public class FieldUpdaterTest {

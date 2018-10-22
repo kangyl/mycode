@@ -11,7 +11,7 @@ import java.util.concurrent.locks.Lock;
  * <p> Description:
  * <p>
  *
- * @author 康玉琳 (yulin.kang@ucarinc.com)
+ * @author 康玉琳 (460720197@qq.com)
  * @since 2018年10月18日
  */
 public class MyReentrantLock implements Serializable, Lock {
