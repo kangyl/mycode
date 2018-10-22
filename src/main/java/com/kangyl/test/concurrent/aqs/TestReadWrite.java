@@ -22,7 +22,7 @@ public class TestReadWrite {
     public void writeAndRead() {
         readLock.lock();
         try{
-            value = "dssd";
+             value = "dssd";
             writeLock.lock();
             System.out.println(value);
 
