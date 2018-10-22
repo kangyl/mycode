@@ -18,7 +18,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class MyThreadPoolExecutor extends MyAbstractExecutorService {
 
-    private final AtomicInteger ctl = new AtomicInteger(ctlOf(RUNNING, 0));
+    private final AtomicInteger ctl = new AtomicInteger(ctlOf(RUNNING,0));
 
     private static final int CAPS_BITS = Integer.SIZE - 3;
     private static final int MAX_CAPS_ = (1 << CAPS_BITS) - 1;
@@ -35,10 +35,12 @@ public class MyThreadPoolExecutor extends MyAbstractExecutorService {
     private volatile long keepAliveTime;
     private static final RejectHandler defaultHandler = new AbortRejectHandler();
     private ThreadFactory threadFactory;
-    private BlockingQueue queue;
+    private BlockingQueue<Runnable> workQueue;
     private RejectHandler rejectHandler;
     private HashSet<Worker> workers = new HashSet<>();
-    private BlockingQueue<Runnable> workQueue;
+    private boolean corePoolTimeOut;
+
+    private volatile long totalFinishTask;
 
     public MyThreadPoolExecutor(int coreSize, int maxLargeSize, int time, TimeUnit timeUnit) {
         this(coreSize, maxLargeSize, time, timeUnit, new DefaultThreadFactory(), new LinkedBlockingQueue(Integer.MAX_VALUE), defaultHandler);
@@ -49,7 +51,7 @@ public class MyThreadPoolExecutor extends MyAbstractExecutorService {
         this.maxLargeSize = maxLargeSize;
         this.keepAliveTime = timeUnit.toNanos(time);
         this.threadFactory = threadFactory;
-        this.queue = queue;
+        this.workQueue = queue;
         this.rejectHandler = rejectHandler;
         workQueue = new LinkedBlockingQueue<>(CAPS_BITS);
     }
@@ -259,23 +261,28 @@ public class MyThreadPoolExecutor extends MyAbstractExecutorService {
     private final class Worker extends AbstractQueuedSynchronizer implements Runnable {
 
         private Thread thread;
-        private Runnable runnable;
+        private Runnable firstTask;
+        volatile long completedTasks;
 
-        public Worker(Runnable runnable) {
-            this.thread = threadFactory.newThread(runnable);
-            this.runnable = runnable;
+        public Worker(Runnable firstTask) {
+            this.thread = threadFactory.newThread(this);
+            this.firstTask = firstTask;
         }
 
         @Override
-        public void run() {
-            runWorker(this);
+        protected boolean tryAcquire(int arg) {
+            if(compareAndSetState(0,1)){
+                setExclusiveOwnerThread(Thread.currentThread());
+                return true;
+            }
+            return false;
         }
 
         public void lock() {
-            acquire(1);
+             acquire(1);
         }
 
-        public boolean tryLock() {
+        public boolean trylock() {
             return tryAcquire(1);
         }
 
@@ -283,42 +290,163 @@ public class MyThreadPoolExecutor extends MyAbstractExecutorService {
             release(1);
         }
 
-        @Override
-        protected boolean tryAcquire(int arg) {
-            if(compareAndSetState(0, 1)) {
-                setExclusiveOwnerThread(Thread.currentThread());
-                return true;
-            }
-            return false;
-        }
-
-        @Override
-        protected boolean tryRelease(int arg) {
-            setState(0);
-            setExclusiveOwnerThread(null);
-            return true;
+        public boolean isLock() {
+            return isHeldExclusively();
         }
 
         @Override
         protected boolean isHeldExclusively() {
-            return getState()!=0;
+            return getState() == 1;
+        }
+
+        @Override
+        protected boolean tryRelease(int arg) {
+            setExclusiveOwnerThread(null);
+            setState(0);
+            return true;
+        }
+
+        @Override
+        public void run() {
+            runForWork(this);
         }
     }
 
-    private void runWorker(Worker worker) {
-        if(worker == null) {
-            throw new NullPointerException();
-        }
-        Runnable task = worker.runnable;
-        worker.runnable = null;
+
+    private void runForWork(Worker worker) {
+        Runnable firstTask = worker.firstTask;
+        worker.firstTask = null;
+        boolean interrupt = true;
         worker.unlock();
-        while(task != null || getTask() != null) {
-            worker.lock();
+        try{
+            while (firstTask != null || (firstTask = getTask()) != null) {
+                worker.lock();
+                clearInterruptForTaskRun();
 
+                try{
+                    Throwable throwable = null;
+                    beforeExecute(worker.thread,firstTask);
+                    try{
+                        firstTask.run();
+                    }catch (RuntimeException e){
+                        throwable = e;
+                        throw e;
+                    }catch (Error e){
+                        throwable = e;
+                        throw e;
+                    }catch (Throwable e){
+                        throwable = e;
+                        throw new Error(e);
+                    }
+                    finally {
+                        afterExecute(worker.thread, throwable);
+                    }
+                }finally {
+                    firstTask = null;
+                    worker.completedTasks++;
+                    worker.unlock();
+                }
+            }
+            interrupt = false;
+        }finally {
+            processExistWork(worker, interrupt);
+        }
+
+
+    }
+
+    private void processExistWork(Worker worker, boolean interrupt) {
+        if (interrupt) {
+            decreaseWorkCount();
+        }
+        ReentrantLock mainLock = this.mainLock;
+        mainLock.lock();
+        try{
+            this.totalFinishTask += worker.completedTasks;
+            workQueue.remove(worker);
+        }finally {
+            mainLock.unlock();
+        }
+
+        tryTerminated();
+
+        int c = ctl.get();
+        if (isRunning(c)) {
+            if(!interrupt){
+                int min = corePoolTimeOut ? 0 : coreSize;
+
+                if (min==0 && !workQueue.isEmpty()) {
+                    min = 1;
+                }
+                if (workCountOf(c) >= min) {
+                    return;
+                }
+            }
+            addWorker(null, false);
         }
     }
 
+    protected void beforeExecute(Thread thread, Runnable runnable) {
+
+    }
+
+    protected void afterExecute(Thread thread,Throwable e){
+
+    }
+
+    private void clearInterruptForTaskRun() {
+        if(ctl.get()<STOP
+                && Thread.interrupted()
+                &&ctl.get()>=STOP){
+            Thread.interrupted();
+        }
+    }
+
+    /**
+     * 获取下一个任务
+     * @return
+     */
     private Runnable getTask() {
-        return getTask();
+        boolean timeout = false;
+
+        retry:
+        for(;;){
+            int c = ctl.get();
+            int runState = runStateOf(c);
+            if (c >= SHUTDOWN || (c >= STOP && workQueue.isEmpty())) {
+                decreaseWorkCount();
+                return null;
+            }
+
+            boolean time;
+            for(;;) {
+                int workCount = workCountOf(c);
+                time = corePoolTimeOut || workCount > coreSize;
+
+                //如果连接超时并且又有时间限制，则会跳过此步骤执行到 return null
+                if (workCount < maxLargeSize && !(timeout && time)) {
+                    break;
+                }
+                if(ctl.compareAndSet(c,c-1)){
+                    return null;
+                }
+                int newState = ctl.get();
+                if (runStateOf(newState) != runState) {
+                    continue retry;
+                }
+            }
+
+            try {
+                Runnable task = time ? workQueue.poll(keepAliveTime, TimeUnit.NANOSECONDS) : workQueue.take();
+                if (task != null) {
+                    return task;
+                }
+                timeout = true;
+            } catch (InterruptedException e) {
+                timeout = false;
+            }
+
+        }
+
     }
 }
