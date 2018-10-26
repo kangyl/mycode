@@ -11,7 +11,7 @@ import java.util.concurrent.Executors;
  * @date: 2018/4/14
  */
 public class TestMain {
-    private static ExecutorService executorService = Executors.newFixedThreadPool(10);
+//    private static ExecutorService executorService = Executors.newFixedThreadPool(10);
     public static void main(String[] args) {
         final LeftRightDeadLock leftRightDeadLock = new LeftRightDeadLock(1);
         Thread thread = new Thread(new Runnable() {
@@ -31,12 +31,7 @@ public class TestMain {
         });
         thread1.start();
 
-        executorService.submit(new Runnable() {
-            @Override
-            public void run() {
-                leftRightDeadLock.startTest();
-            }
-        });
+        leftRightDeadLock.startTest();
 
     }
 }

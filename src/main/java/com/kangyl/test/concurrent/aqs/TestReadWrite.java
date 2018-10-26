@@ -18,7 +18,7 @@ public class TestReadWrite {
     private Lock writeLock = readWriteLock.writeLock();
     private String value;
 
-    //导致死锁
+    //导致线程挂起
     public void writeAndRead() {
         readLock.lock();
         try{
