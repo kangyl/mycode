@@ -15,53 +15,16 @@ import java.util.concurrent.locks.LockSupport;
  * @author 康玉琳 (460720197@qq.com)
  * @since 2018年10月17日
  */
-public class WhateverMain extends Thread{
+public class WhateverMain {
 
-    private boolean visible;
 
-    @Override
-    public void run(){
-        int i = 0;
-        while(!visible){
-            i++;
-        }
-        System.out.println(i);
-    }
-
-    public void stopIt() {
-        visible = true;
-    }
-
-    public boolean getStop() {
-        return visible;
-    }
 
     public static void main(String[] args) throws Exception{
-// /        WhateverMain whateverMain = new WhateverMain();
-//        whateverMain.start();
-//
-//        Thread.sleep(1000);
-//        whateverMain.stopIt();
-////        Thread.sleep(2000);
-//        System.out.println("finish main");
-//        System.out.println(whateverMain.getStop());
+        System.out.println(loop(1));
+    }
 
-//        Thread thread = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                int i = 0;
-//                try{
-//                    Thread.sleep(1000);
-//                }catch (InterruptedException e){
-//                    e.printStackTrace();
-//                }
-//
-//            }
-//        });
-//        thread.start();
-//
-//        thread.interrupt();
-        List<String> s = new ArrayList<>();
-        s.wait();
+    private static int loop(int i){
+        i++;
+        return loop(i);
     }
 }
