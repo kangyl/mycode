@@ -18,7 +18,7 @@ public class CustomerAndProducterByLock {
 
     private Lock lock = new ReentrantLock();
     private Condition condition = lock.newCondition();
-    private Queue<String> queue = new LinkedList<>();
+    private Queue<String> queue = new LinkedList<String>();
     private static final int MAX_SIZE = 10;
 
     class Customer extends Thread {

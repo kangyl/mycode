@@ -20,7 +20,7 @@ public class BloomFilter {
 
 
     public BloomFilter() {
-        simpleHashList = new ArrayList<>();
+        simpleHashList = new ArrayList<SimpleHash>();
         for (int factor : HASH_FACTOR) {
             simpleHashList.add(new SimpleHash(SIZE, factor));
         }

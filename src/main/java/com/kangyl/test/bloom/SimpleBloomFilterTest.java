@@ -36,7 +36,7 @@ public class SimpleBloomFilterTest {
 
     private static List<String> generateStrList() {
         int generateSize = 1111100;
-        List<String> strings = new ArrayList<>(generateSize);
+        List<String> strings = new ArrayList<String>(generateSize);
         for (int i = 0; i < generateSize; i++) {
             strings.add(genenateStr(10));
         }

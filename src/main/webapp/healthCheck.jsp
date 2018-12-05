@@ -1,2 +1,2 @@
 <%@ page session="false"%>
-<html> node-ucmapi health check success!</html>
+<html> mycode health check success!</html>

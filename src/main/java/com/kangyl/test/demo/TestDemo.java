@@ -13,7 +13,7 @@ import java.util.Queue;
 public class TestDemo {
 
     public static void main(String[] args) {
-        Queue<String> task = new LinkedList<>();
+        Queue<String> task = new LinkedList<String>();
         Producer producer = new Producer(task);
         Customer customer = new Customer(task);
 

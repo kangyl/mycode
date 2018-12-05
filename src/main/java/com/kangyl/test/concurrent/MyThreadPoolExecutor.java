@@ -37,7 +37,7 @@ public class MyThreadPoolExecutor extends MyAbstractExecutorService {
     private ThreadFactory threadFactory;
     private BlockingQueue<Runnable> workQueue;
     private RejectHandler rejectHandler;
-    private HashSet<Worker> workers = new HashSet<>();
+    private HashSet<Worker> workers = new HashSet<Worker>();
     private boolean corePoolTimeOut;
 
     private volatile long totalFinishTask;

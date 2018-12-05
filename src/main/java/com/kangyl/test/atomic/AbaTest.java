@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicMarkableReference;
  */
 public class AbaTest {
 
-    static AtomicMarkableReference<Integer> atomicMarkableReference = new AtomicMarkableReference<>(5, true);
+    static AtomicMarkableReference<Integer> atomicMarkableReference = new AtomicMarkableReference<Integer>(5, true);
 
     public static void main(String[] args)throws InterruptedException {
         final Integer reference = atomicMarkableReference.getReference();
