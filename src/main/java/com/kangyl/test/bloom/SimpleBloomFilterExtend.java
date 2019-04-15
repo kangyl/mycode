@@ -7,7 +7,7 @@ import java.util.Set;
  * <p> Description:布隆过滤器的扩展,新增是否实际存在判定
  * <p>
  *
- * @author 康玉琳 (460720197@qq.com)
+ * @author kangyl (460720197@qq.com)
  * @since 2018年10月12日
  */
 public class SimpleBloomFilterExtend extends BloomFilter {

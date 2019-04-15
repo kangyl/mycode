@@ -16,7 +16,7 @@ public class PagingPlugin implements Interceptor {
     }
 
     public Object plugin(Object object) {
-        return ProxUtils.wrap(object, this);
+        return ProxyUtils.wrap(object, this);
     }
 
 

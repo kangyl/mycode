@@ -8,7 +8,7 @@ import java.util.List;
  * <p> Description:简单布隆过滤器实现
  * <p>
  *
- * @author 康玉琳 (460720197@qq.com)
+ * @author kangyl (460720197@qq.com)
  * @since 2018年10月12日
  */
 public class BloomFilter {

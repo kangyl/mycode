@@ -9,7 +9,7 @@ import java.lang.reflect.Method;
  * <p> Description:动态编译测试类
  * <p>
  *
- * @author 康玉琳 (460720197@qq.com)
+ * @author kangyl (460720197@qq.com)
  * @since 2018年09月30日
  */
 public class TestJavassist {

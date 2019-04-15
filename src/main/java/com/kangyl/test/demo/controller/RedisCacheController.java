@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * <p> Description:
  * <p>
  *
- * @author 康玉琳 (460720197@qq.com)
+ * @author kangyl (460720197@qq.com)
  * @since 2018年10月30日
  */
 @Controller
