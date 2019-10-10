@@ -3,7 +3,7 @@
  */
 package com.kangyl.test.management;
 
-import com.sun.jdmk.comm.HtmlAdaptorServer;
+//import com.sun.jdmk.comm.HtmlAdaptorServer;
 
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
@@ -23,9 +23,9 @@ public class HelloAgent {
         mBeanServer.registerMBean(hello, objectName);
 
         ObjectName adapterName = new ObjectName("myMBean:name=htmlAdapter,port=8082");
-        HtmlAdaptorServer adaptorServer = new HtmlAdaptorServer();
-        adaptorServer.start();
-        mBeanServer.registerMBean(adaptorServer, adapterName);
+//        HtmlAdaptorServer adaptorServer = new HtmlAdaptorServer();
+//        adaptorServer.start();
+//        mBeanServer.registerMBean(adaptorServer, adapterName);
 
         Kent kent = new Kent();
         mBeanServer.registerMBean(kent, new ObjectName("myMBean:name=kent"));

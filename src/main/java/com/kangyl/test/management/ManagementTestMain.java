@@ -3,7 +3,7 @@
  */
 package com.kangyl.test.management;
 
-import com.sun.jdmk.comm.HtmlAdaptorServer;
+//import com.sun.jdmk.comm.HtmlAdaptorServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,10 +32,10 @@ public class ManagementTestMain {
             mBeanServer.registerMBean(new Hello(), objectName);
 
             ObjectName adapterName = new ObjectName(domainName + ":name=htmlAdapter,port=8082");
-            HtmlAdaptorServer htmlAdaptorServer = new HtmlAdaptorServer();
-            htmlAdaptorServer.start();
+//            HtmlAdaptorServer htmlAdaptorServer = new HtmlAdaptorServer();
+//            htmlAdaptorServer.start();
 
-            mBeanServer.registerMBean(htmlAdaptorServer, adapterName);
+//            mBeanServer.registerMBean(htmlAdaptorServer, adapterName);
 
             int rmiPort = 1099;
             Registry registry = LocateRegistry.createRegistry(rmiPort);
