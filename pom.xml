@@ -35,7 +35,7 @@
     <!--</build>-->
 
     <properties>
-        <spring.version>5.0.6.RELEASE</spring.version>
+        <spring.version>5.2.1.RELEASE</spring.version>
         <servlet.version>2.5</servlet.version>
         <log4j.version>1.7.25</log4j.version>
         <junit.version>4.10</junit.version>
