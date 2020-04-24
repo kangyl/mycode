@@ -17,7 +17,7 @@ public class TestMain {
                 leftRightDeadLock.left();
             }
         });
-
+        thread.setName("左侧线程");
         thread.start();
 
         Thread thread1 = new Thread(new Runnable() {
@@ -26,9 +26,11 @@ public class TestMain {
                 leftRightDeadLock.right();
             }
         });
+
+        thread1.setName("右侧线程");
         thread1.start();
 
-        leftRightDeadLock.startTest();
+//        leftRightDeadLock.startTest();
 
     }
 }

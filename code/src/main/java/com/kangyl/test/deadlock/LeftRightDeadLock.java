@@ -22,8 +22,9 @@ public class LeftRightDeadLock {
     public void right() {
         synchronized (right) {
             try {
-                countDownLatch.await();
+//                countDownLatch.await();
                 Thread.sleep(2000);
+                System.out.println("持有right，正要锁定left");
                 synchronized (left){
                     System.out.println("this is right lock");
                 }
@@ -39,9 +40,9 @@ public class LeftRightDeadLock {
     public void left() {
         synchronized (left) {
             try{
-                countDownLatch.await();
+//                countDownLatch.await();
                 Thread.sleep(2000);
-
+                System.out.println("持有left，正要锁定right");
                 synchronized (right) {
                     System.out.println(" this is left lock");
                 }

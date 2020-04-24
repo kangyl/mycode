@@ -5,6 +5,20 @@ spring:
     password: root
     url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
     driver-class-name: com.mysql.jdbc.Driver
+    hikari:
+      ##最小空闲连接数量
+      minimum-idle: 2
+      ##最大空间连接数量
+      maximum-pool-size: 10
+      ##是否自动提交
+      auto-commit: false
+      ##连接池名称
+      pool-name: hikari-pool
+      #数据库连接超时时间
+      connection-timeout: 30000
+      ##此属性控制池中连接的最长生命周期，值0表示无限生命周期，默认1800000即30分钟
+      max-lifetime: 1800000
+      connection-test-query: select 1
 
 mybatis:
   mapper-locations: classpath:com/kangyl/mapper/*_mapper.xml

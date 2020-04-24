@@ -3,6 +3,7 @@ package com.kangyl.springboot.web.user.service.impl;
 import com.kangyl.springboot.web.user.bean.SysUser;
 import com.kangyl.springboot.web.user.bean.query.SysUserQueryParam;
 import com.kangyl.springboot.web.user.dao.SysUserDao;
+import com.kangyl.springboot.web.user.service.SysTestService;
 import com.kangyl.springboot.web.user.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,9 @@ public class SysUserServiceImpl implements SysUserService {
 
     private SysUserDao sysUserDao;
 
+    @Autowired
+    private SysTestService sysTestService;
+
     @SuppressWarnings("all")
     @Autowired
     public void setSysUserDao(SysUserDao sysUserDao) {
@@ -27,10 +31,15 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    @Transactional(rollbackFor = Throwable.class)
     public void addUser(SysUser user) {
-        user.setCreateTime(new Date());
-        sysUserDao.insertUser(user);
+        try{
+            user.setCreateTime(new Date());
+            sysUserDao.insertUser(user);
+            sysTestService.testTrans();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     @Override

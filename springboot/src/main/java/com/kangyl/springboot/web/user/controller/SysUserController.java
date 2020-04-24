@@ -26,6 +26,7 @@ public class SysUserController {
             sysUserService.addUser(user);
             return CommonResponse.success();
         }catch (Exception e){
+            e.printStackTrace();
             return CommonResponse.failure();
         }
 

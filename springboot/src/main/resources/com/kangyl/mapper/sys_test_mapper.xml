@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace：命名空间，用于隔离sql-->
+<mapper namespace="com.kangyl.springboot.web.user.dao.SysTestDao" >
+    <resultMap id="sysTest" type="com.kangyl.springboot.web.user.bean.SysTest" >
+        <id column="id"  property="id"/>
+        <result column="user_name" property="userName"/>
+    </resultMap>
+    <sql id="allFields">
+        id,age,user_name,address,create_time
+    </sql>
+
+    <insert id="insert">
+        insert into sys_test(
+            user_name
+        )values(
+        #{userName}
+        )
+    </insert>
+</mapper>
